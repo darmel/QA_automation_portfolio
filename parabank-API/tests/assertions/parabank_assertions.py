@@ -2,7 +2,9 @@ from assertpy.assertpy import assert_that, soft_assertions
 import pytest
 from cerberus import Validator
 from schemas.schema_customerId import schema_customer
-from utils.helpers import count_accounts, pretty_print
+from utils.helpers import count_accounts
+import logging
+logger = logging.getLogger(__name__)
 
 
 def assert_status_code(response, expected_code):
@@ -43,5 +45,16 @@ def assert_a_is_greter_than_b(a, b):
 
 def assert_value_is_present_in_array_of_elements(response, key, value):
     ids = [account['id'] for account in response.as_dict]
-    print(ids)
+    logger.info(f'ids: {ids}')
     assert_that(ids).contains(value)
+
+
+def assert_account_by_Id_has_expected_schema(schema, response):
+    validator = Validator(schema, require_all=True)  # type: ignore
+    is_valid = validator.validate(response.as_dict)  # type: ignore
+    assert_that(is_valid, description=validator.errors).is_true()
+
+
+def assert_trasnfer_is_succesful(response, id1, id2, amount):
+    text = response.text
+    assert_that(text).contains(str(id1), str(id2), str(amount))

@@ -1,7 +1,7 @@
 import requests
-from urllib.parse import urlencode
-
 from utils.response import Response
+import logging
+logger = logging.getLogger(__name__)
 
 
 class APIRequest:
@@ -19,10 +19,9 @@ class APIRequest:
             'Accept': 'application/json'
         }
         if payload is not None:
-            # print('con payload')
+            logger.debug("comentario")
             response = requests.post(url, data=payload, headers=headers)
         else:
-            # print('sin payload')
             response = requests.post(url, headers=headers, params=params)
 
         return self.__get_responses(response)
