@@ -26,3 +26,6 @@ class ParabankHomePage:
         username_input.send_keys(usarname)
         password_input = self.browser.find_element(*self.PASSWORD_INPUT)
         password_input.send_keys(password + Keys.RETURN)
+
+    def title(self):
+        return self.browser.title
