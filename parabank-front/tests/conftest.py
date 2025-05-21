@@ -8,7 +8,7 @@ es necesario que se llame conftest
 import webdriver_manager.chrome  # para leer el archivo de config.json
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeServide
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
@@ -52,14 +52,16 @@ def browser(config):  # ahora el browser recibe la config que ya fue checkeada
             GeckoDriverManager().install()))
     elif config['browser'] == 'Chrome':
         # b = selenium.webdriver.Chrome()
-        b = webdriver.Chrome(service=ChromeServide(
+        b = webdriver.Chrome(service=ChromeService(
             ChromeDriverManager().install()))
     elif config['browser'] == 'Headless Chrome':
         options = Options()
         options.add_argument('--headless=new')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
-        b = webdriver.Chrome(options=options)
+        b = webdriver.Chrome(service=ChromeService(
+            ChromeDriverManager().install()), options=options)
+
     else:
         raise Exception(f'Browser "{config["browser"]}" is not supported')
 
