@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.service import Service as ChromeServide
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+import os
 import json
 
 import logging
@@ -26,7 +27,10 @@ def pytest_configure():
 @pytest.fixture
 def config(scope='sesion'):  # scope= sesion, es para que lo  lea una vez y no en cada test
     # lee el json
-    with open('config.json') as config_file:
+    config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
+
+    # with open('config.json') as config_file:
+    with open(os.path.abspath(config_path)) as config_file:
         config = json.load(config_file)
 
     # checkeamos los valores de la config
