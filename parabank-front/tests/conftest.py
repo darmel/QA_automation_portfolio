@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.service import Service as ChromeServide
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.options import Options
 import os
 import json
 
@@ -53,10 +54,12 @@ def browser(config):  # ahora el browser recibe la config que ya fue checkeada
         # b = selenium.webdriver.Chrome()
         b = webdriver.Chrome(service=ChromeServide(
             ChromeDriverManager().install()))
-    # elif config['browser'] == 'Headless Chrome':
-        # opts = selenium.webdriver.ChromeOptions()
-        # opts.add_argument('headless')
-        # b = selenium.webdriver.Chrome(options=opts)
+    elif config['browser'] == 'Headless Chrome':
+        options = Options()
+        options.add_argument('--headless=new')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        b = webdriver.Chrome(options=options)
     else:
         raise Exception(f'Browser "{config["browser"]}" is not supported')
 
