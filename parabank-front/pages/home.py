@@ -5,8 +5,10 @@ logger = logging.getLogger(__name__)
 
 
 class ParabankHomePage:
-    # url
-    URL = 'https://parabank.parasoft.com/parabank/index.htm'
+    # url contra el online de parasoft
+    # URL = 'https://parabank.parasoft.com/parabank/index.htm'
+
+    URL = 'http://localhost:8081/parabank/index.htm'
 
     # locators
     USERNAME_INPUT = (By.NAME, 'username')
