@@ -178,3 +178,4 @@ cython_debug/
 
 #allure results .json
 allure-results/*
+*/allure-results/*

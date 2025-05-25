@@ -1,5 +1,5 @@
 import pytest
-from clients.client import ParaBankClient
+from api_clients.client import ParaBankClient
 # from ..clients.client import ParaBankClient
 import random
 from utils.helpers import pretty_print, accountId_helper, count_accounts
