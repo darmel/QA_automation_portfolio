@@ -1,5 +1,5 @@
 import pytest
-from db_clients.parabank_db_client import open_parabank_conn
+from parabank_database.db_clients.parabank_db_client import open_parabank_conn
 import logging
 logger = logging.getLogger(__name__)
 

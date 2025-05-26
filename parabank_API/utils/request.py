@@ -1,5 +1,5 @@
 import requests
-from utils.response import Response
+from ..utils.response import Response
 import logging
 logger = logging.getLogger(__name__)
 

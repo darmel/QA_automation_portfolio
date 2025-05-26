@@ -1,6 +1,7 @@
 from uuid import uuid4
-from utils.request import APIRequest
-from config import BASE_URL
+# from ..utils.request import APIRequest
+from ..utils.request import APIRequest
+from ..config import BASE_URL
 import logging
 logger = logging.getLogger(__name__)
 

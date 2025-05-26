@@ -1,8 +1,8 @@
 from assertpy.assertpy import assert_that, soft_assertions
 import pytest
 from cerberus import Validator
-from schemas.schema_customerId import schema_customer
-from utils.helpers import count_accounts
+from parabank_API.schemas.schema_customerId import schema_customer
+from parabank_API.utils.helpers import count_accounts
 import logging
 logger = logging.getLogger(__name__)
 

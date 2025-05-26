@@ -4,8 +4,8 @@ esto es el test del login de parabank
 
 # importo las page object de las paginas que voy a usar
 import logging
-from pages.home import ParabankHomePage
-from pages.overview import ParabankOverviewPage
+from parabank_front.pages.home import ParabankHomePage
+from parabank_front.pages.overview import ParabankOverviewPage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import pytest

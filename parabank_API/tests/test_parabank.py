@@ -3,10 +3,10 @@ import pytest
 from pathlib import Path
 from jsonpath_ng import parse
 # from tests.schema_test import schema
-import tests.assertions.parabank_assertions as pa
-from utils.helpers import pretty_print, count_accounts, accountId_helper
-from schemas.schema_customerId import schema_customer
-from schemas.schema_accountId import schema_account
+import parabank_API.tests.assertions.parabank_assertions as pa
+from parabank_API.utils.helpers import pretty_print, count_accounts, accountId_helper
+from parabank_API.schemas.schema_customerId import schema_customer
+from parabank_API.schemas.schema_accountId import schema_account
 import logging
 logger = logging.getLogger(__name__)
 

@@ -8,7 +8,9 @@ import pathlib
 
 JAR_PATH = pathlib.Path(__file__).resolve(
 ).parent.parent / "java-lib" / "hsqldb-jdk8.jar"
-URL = "jdbc:hsqldb:hsql://localhost:9001/parabank"
+# URL = "jdbc:hsqldb:hsql://localhost:9001/parabank"
+URL = os.getenv("PARABANK_DB_URL",
+                "jdbc:hsqldb:hsql://localhost:9001/parabank")
 USER = "sa"
 PWD = ""
 

@@ -1,10 +1,10 @@
 import pytest
-from api_clients.client import ParaBankClient
-# from ..clients.client import ParaBankClient
+from parabank_API.api_clients.client import ParaBankClient
 import random
-from utils.helpers import pretty_print, accountId_helper, count_accounts
+# from ..utils.helpers import pretty_print, accountId_helper, count_accounts
+from parabank_API.utils.helpers import pretty_print, accountId_helper, count_accounts
 
-from utils import response
+from parabank_API.utils import response
 import logging
 logger = logging.getLogger(__name__)
 

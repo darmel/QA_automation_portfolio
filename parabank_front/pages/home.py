@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from parabank_front.config import FRONT_URL
 import logging
 logger = logging.getLogger(__name__)
 
@@ -8,7 +9,7 @@ class ParabankHomePage:
     # url contra el online de parasoft
     # URL = 'https://parabank.parasoft.com/parabank/index.htm'
 
-    URL = 'http://localhost:8081/parabank/index.htm'
+    URL = FRONT_URL
 
     # locators
     USERNAME_INPUT = (By.NAME, 'username')
