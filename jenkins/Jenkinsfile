@@ -1,0 +1,78 @@
+pipeline {
+    agent any
+    
+    environment {
+        PARABANK_API_URL = "http://parabank-site:8080/parabank/services/bank"
+        PARABANK_FRONT_URL = "http://parabank-site:8080/parabank/index.htm"
+        PARABANK_DB_URL = "jdbc:hsqldb:hsql://parabank-site:9001/parabank"
+    }
+
+    stages {
+        stage('Checkout') {
+        steps {
+            git url: 'https://github.com/darmel/QA_automation_portfolio.git', branch: 'main'
+            }
+        }
+
+        stage('Instalar dependencias') {
+            steps {
+                sh '''
+                if [ ! -d "venv" ]; then
+                  python3.8 -m venv venv
+                fi
+
+                . venv/bin/activate
+
+                pip install --upgrade pip setuptools wheel
+
+                #isntalar dependencias:
+                pip install -r requirements.txt
+                pwd
+                '''
+            }
+        }   
+
+        stage('Ejecutar tests API') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh '''
+                    . venv/bin/activate
+                    #pytest parabank-API/tests --alluredir=allure-results/api
+                    python -m pytest -v --log-cli-level=INFO --alluredir=allure-results
+                    '''
+                }
+            }
+        }
+
+        /*stage('Ejecutar tests Front') {
+            steps {
+                sh '''
+                . venv/bin/activate
+                pytest parabank-front/tests --alluredir=allure-results/front
+                '''
+            }
+        }*/
+
+        stage('generar reportes Allure') {
+            steps {
+                sh '''
+                allure generate allure-results -o allure-report --clean
+                #allure generate allure-results/front -o allure-report/front --clean
+                '''
+            }
+        }
+
+        stage('publicar reporte') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
+            }
+        }
+    }
+
+    post {
+        always {
+            // acciones cuando termine.
+            echo 'Fin de ejecución'
+        }
+    }
+}
