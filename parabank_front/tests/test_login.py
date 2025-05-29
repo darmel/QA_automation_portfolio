@@ -1,14 +1,20 @@
 """
 esto es el test del login de parabank
 """
+import time  # solo para debug
 
 # importo las page object de las paginas que voy a usar
 import logging
-from parabank_front.pages.home import ParabankHomePage
+from pages.home import ParabankHomePage
 from parabank_front.pages.overview import ParabankOverviewPage
+from parabank_front.pages.register import ParabankRegister
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import pytest
+# fa for front assertions
+import parabank_front.tests.ui_assertions.pb_ui_assertions as fa
+
+
 from assertpy.assertpy import assert_that, soft_assertions
 
 logger = logging.getLogger(__name__)
@@ -37,9 +43,10 @@ def test_login_parabank(browser, username, password, name, last_name):
 
     # THEN buscar algo apra hacer el assert"
     # valido el titulo de la pagina
-    title = overview_page.title()
+    title = overview_page.title
     logger.info(f'titulo de la pagina: {title}')
-    assert 'ParaBank | Accounts Overview' == overview_page.title()
+    fa.assert_title_page(overview_page, overview_page.TITLE)
+
     # valido el nombre de usuario
     full_text = overview_page.get_username()
     logger.info(f'full welcome text: {full_text}')
@@ -64,7 +71,31 @@ def test_login_fail(browser):
 
     # THEN buscar algo apra hacer el assert"
     # valido el titulo de la pagina
-    title = home_page.title()
+    title = home_page.title
     logger.info(f'titulo de la pagina: {title}')
-    assert 'ParaBank | Error' == home_page.title()
+    fa.assert_title_page(home_page, 'ParaBank | Error')
+    # assert 'ParaBank | Error' == home_page.title()
     # valido el nombre de usuario
+
+
+def test_register_new_customer(browser, random_user):
+    # creo los objetos de pagina que voy a usar
+    register_page = ParabankRegister(browser)
+    overview_page = ParabankOverviewPage(browser)
+
+    # Given, estoy en lapagina register
+    register_page.load()
+    logger.info(f'titulo de la pagina: {register_page.title}')
+    fa.assert_title_page(register_page, register_page.TITLE)
+
+    # WHEN, se registra un customer
+    register_page.register_customer(random_user)
+    # time.sleep(3)
+    WebDriverWait(browser, 10).until(
+        ec.title_is('ParaBank | Customer Created'))
+    fa.assert_title_page(register_page, 'ParaBank | Customer Created')
+    # valido el nombre de usuario
+    full_text = overview_page.get_username()
+    logger.info(f'full welcome text: {full_text}')
+    full_name = f'{random_user["first_name"]} {random_user["last_name"]}'
+    assert_that(full_text).contains(full_name)

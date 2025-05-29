@@ -13,6 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
+from parabank_front.front_utils.fake_data_generator import generate_user
 import os
 import json
 
@@ -73,3 +74,8 @@ def browser(config):  # ahora el browser recibe la config que ya fue checkeada
 
     # cuando regresa, cierra la instancia
     b.quit()
+
+
+@pytest.fixture
+def random_user():
+    return generate_user()
