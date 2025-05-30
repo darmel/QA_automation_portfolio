@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 class ParabankRegister(BasePage):
 
     URL = f'{FRONT_URL}/register.htm'
-    TITLE = 'ParaBank | Register for Free Online Account Access'
+    TITLE1 = 'ParaBank | Register for Free Online Account Access'
+    TITLE2 = 'ParaBank | Customer Created'  # after register title change
 
     # locators
     FIRST_NAME_INPUT = (By.ID, 'customer.firstName')
@@ -26,14 +27,8 @@ class ParabankRegister(BasePage):
     REGISTER_BUTTON = (
         By.CSS_SELECTOR, 'input[type="submit"][value="Register"]')
 
-    # initializer (ya lo mande al BasePage)
-#    def __init__(self, browser):
-#        self.browser = browser
-
-    def load(self):
-        self.browser.get(self.URL)
-
     # interactions methods
+
     def register_customer(self, customer):
         firstaname_input = self.find(self.FIRST_NAME_INPUT)
         firstaname_input.send_keys(customer["first_name"])

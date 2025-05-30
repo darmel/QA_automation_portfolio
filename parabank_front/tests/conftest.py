@@ -14,6 +14,9 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
 from parabank_front.front_utils.fake_data_generator import generate_user
+from parabank_front.front_utils.new_customer_generation import new_customer_generation
+
+
 import os
 import json
 
@@ -79,3 +82,10 @@ def browser(config):  # ahora el browser recibe la config que ya fue checkeada
 @pytest.fixture
 def random_user():
     return generate_user()
+
+
+@pytest.fixture
+def new_customer(browser, random_user):
+    # before registration is a random user, after us new customer
+    new_customer = new_customer_generation(browser, random_user)
+    return new_customer

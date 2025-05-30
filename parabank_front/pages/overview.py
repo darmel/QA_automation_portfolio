@@ -10,17 +10,7 @@ class ParabankOverviewPage(BasePage):
 
     # locators:
 
-    USER_WELCOME_TEXT = (By.CSS_SELECTOR, '#leftPanel p.smallText')
-
     # initializer
 
     def __init__(self, browser):
         self.browser = browser
-
-# del BasePage
-    # def title(self):
-    #    return self.browser.title
-
-    def get_username(self):
-        welcome_text = self.browser.find_element(*self.USER_WELCOME_TEXT)
-        return welcome_text.text
