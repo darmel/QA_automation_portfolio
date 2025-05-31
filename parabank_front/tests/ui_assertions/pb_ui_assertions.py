@@ -16,5 +16,17 @@ def assert_welcome_text_with_name(page, name, last_name):
     assert_that(full_text).contains(full_name)
 
 
-def assert_aaccount_oppend(page, text):
-    assert_that(page.get_success_text()).is_equal_to(text)
+# def assert_account_oppend(page, text):
+#    assert_that(page.get_success_text()).is_equal_to(text)
+
+
+def assert_text(text1, text2):
+    assert_that(text1).is_equal_to(text2)
+
+
+def assert_text_contain(text1, text2):
+    assert_that(text1).contains(text2)
+
+
+def assert_amount(amount1, amount2):
+    pass

@@ -23,8 +23,8 @@ class ParabankOpenaccountPage(BasePage):
 
 #    OPEN_ACCOUNT_RESULT = (By.ID, "openAccountResult")
     SUCCESS_TITLE = (By.CSS_SELECTOR, "#openAccountResult h1")
-#    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#openAccountResult p")
-    ACCOUNT_INFO = (By.CSS_SELECTOR, "#openAccountResult p b")
+    # SUCCESS_TEXT_RESULT = (By.CSS_SELECTOR, "#openAccountResult p")
+    SUCCESS_TEXT_RESULT = (By.CSS_SELECTOR, "#openAccountResult p b")
     NEW_ACCOUNT_ID = (By.ID, "newAccountId")
 
     # initializer
@@ -45,7 +45,7 @@ class ParabankOpenaccountPage(BasePage):
         self.find(self.OPEN_ACCOUNT_BUTTON).click()
 
     def get_success_text(self):
-        return self.find(self.ACCOUNT_INFO).text.strip()
+        return self.find(self.SUCCESS_TEXT_RESULT).text.strip()
 
     def get_new_account_id(self):
         return self.find(self.NEW_ACCOUNT_ID).text.strip()

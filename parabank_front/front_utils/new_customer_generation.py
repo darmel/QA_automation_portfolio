@@ -12,6 +12,6 @@ def new_customer_generation(browser, random_user):
     register_page.load(register_page.URL)
     register_page.register_customer(random_user)
     logger.info(f'full welcome text: {overview_page.title}')
-    fa.assert_title_page(overview_page, register_page.TITLE2)
+    fa.assert_title_page(overview_page, register_page.TITLE_SUCCESS)
 
     return random_user

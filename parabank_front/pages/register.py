@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 class ParabankRegister(BasePage):
 
     URL = f'{FRONT_URL}/register.htm'
-    TITLE1 = 'ParaBank | Register for Free Online Account Access'
-    TITLE2 = 'ParaBank | Customer Created'  # after register title change
+    TITLE = 'ParaBank | Register for Free Online Account Access'
+    TITLE_SUCCESS = 'ParaBank | Customer Created'  # after register title change
 
     # locators
     FIRST_NAME_INPUT = (By.ID, 'customer.firstName')

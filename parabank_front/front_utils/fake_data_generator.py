@@ -20,7 +20,7 @@ def generate_user():
     customer = {  # devuelve un diccionario
         "first_name": first_cleaned,
         "last_name": last_cleaned,
-        "address": fake.street_address(),
+        "address": clean(fake.street_address()),
         "city": clean(fake.city()[:20]),  # para limintar  a 20 caracteres
         # "state": fake.state(),
         "state": clean(fake.province()[:20]),
