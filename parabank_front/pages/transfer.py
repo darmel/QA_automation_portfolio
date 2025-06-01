@@ -1,5 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
 from parabank_front.pages.base import BasePage
 from parabank_front.config import FRONT_URL
 
@@ -56,9 +58,14 @@ class ParabankTransfer(BasePage):
     def click_transfer_account(self):
         self.find(self.TRRANSFER_BUTTON).click()
 
-    def get_result_title(self):
-        result_title = self.find(self.SHOW_RESULT_TITLE)
-        return result_title.text.strip()
+#    def get_result_title(self):
+#        result_title = self.find(self.SHOW_RESULT_TITLE)
+#        return result_title.text.strip()
+
+    def get_result_title(self, wait=10):
+        WebDriverWait(self.browser, wait).until(
+            ec.text_to_be_present_in_element(self.SHOW_RESULT_TITLE, "Transfer Complete!"))
+        return self.find(self.SHOW_RESULT_TITLE).text.strip()
 
     def get_amount_result_text(self):
         amount_result = self.find(self.AMOUNT_RESULT)

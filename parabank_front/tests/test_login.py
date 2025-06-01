@@ -16,7 +16,7 @@ import pytest
 # fa for front assertions
 import parabank_front.tests.ui_assertions.pb_ui_assertions as fa
 from parabank_front.front_utils.open_new_account import open_new_account
-from assertpy.assertpy import assert_that, soft_assertions
+# from assertpy.assertpy import assert_that, soft_assertions
 
 logger = logging.getLogger(__name__)
 
