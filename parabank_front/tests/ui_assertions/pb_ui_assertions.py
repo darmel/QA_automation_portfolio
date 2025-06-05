@@ -1,12 +1,18 @@
 from assertpy.assertpy import assert_that, soft_assertions
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as ec
 import logging
 logger = logging.getLogger(__name__)
 
 
 def assert_title_page(page, expected, wait=10):
-    WebDriverWait(page.browser, wait).until(ec.title_is(expected))
+    try:
+        WebDriverWait(page.browser, wait).until(ec.title_is(expected))
+    except TimeoutException:
+        logger.info(
+            f'[Debug] assert title page fail waiting for {expected}, actual title: {page.title}')
+        raise
     assert_that(page.title).is_equal_to(expected)
 
 

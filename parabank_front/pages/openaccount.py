@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from parabank_front.pages.base import BasePage
 from parabank_front.config import FRONT_URL
 
@@ -47,12 +48,21 @@ class ParabankOpenaccountPage(BasePage):
         self.find(self.OPEN_ACCOUNT_BUTTON).click()
 
 #    def get_success_text(self):
-#        return self.find(self.SUCCESS_TEXT_RESULT).text.strip()
+#        return self.find(self.SUCCESS_TEXT_RESULT).text.strip() cambio 31/mayo
 
+#    def get_success_text(self, wait=10):
+#        WebDriverWait(self.browser, wait).until(ec.text_to_be_present_in_element(
+#            self.SUCCESS_TEXT_RESULT, "Your new account number:"))
+#        return self.find(self.SUCCESS_TEXT_RESULT).text.strip()
     def get_success_text(self, wait=10):
-        WebDriverWait(self.browser, wait).until(ec.text_to_be_present_in_element(
-            self.SUCCESS_TEXT_RESULT, "Your new account number:"))
-        return self.find(self.SUCCESS_TEXT_RESULT).text.strip()
+        try:
+            WebDriverWait(self.browser, wait).until(
+                ec.text_to_be_present_in_element(
+                    self.SUCCESS_TEXT_RESULT, "Your new account number:"))
+            return self.find(self.SUCCESS_TEXT_RESULT).text.strip()
+        except TimeoutException:
+            actual_text = self.find(self.SUCCESS_TEXT_RESULT).text.strip()
+            return f"{actual_text} (Expected text not found)"
 
     def get_new_account_id(self):
         return self.find(self.NEW_ACCOUNT_ID).text.strip()

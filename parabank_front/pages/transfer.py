@@ -60,7 +60,7 @@ class ParabankTransfer(BasePage):
 
 #    def get_result_title(self):
 #        result_title = self.find(self.SHOW_RESULT_TITLE)
-#        return result_title.text.strip()
+#        return result_title.text.strip()cambio 31/mayo
 
     def get_result_title(self, wait=10):
         WebDriverWait(self.browser, wait).until(
