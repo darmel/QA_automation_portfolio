@@ -21,7 +21,7 @@ def client():
 
 @pytest.fixture
 def get_customerId(client):
-    response = client.login_testuser('testuser', 'password')
+    response = client.login_testuser('john', 'demo')
     customerId = response.as_dict.get("id")
     logger.info(f'customer Id obtenida {customerId}')
     return customerId
