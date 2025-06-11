@@ -8,6 +8,8 @@
 set -euo pipefail
 set +o pipefail
 
+#hora de inicio
+START_TIME=$(date +%s)
 
 # --------- Validación de argumentos ----------
 if [[ $# -lt 1 ]]; then
@@ -27,13 +29,13 @@ declare -A ERROR_COUNT
 
 # --------- Función helper para imprimir tabla ----------
 print_table () {
-  printf '%-80s %7s %7s %7s\n' "Test" "PASSED" "FAILED" "ERROR"
-  printf -- '%.0s-' {1..103}; echo
+  printf '%-90s %7s %7s %7s\n' "Test" "PASSED" "FAILED" "ERROR"
+  printf -- '%.0s-' {1..115}; echo
 
   for t in "${!PASSED_COUNT[@]}" "${!FAILED_COUNT[@]}" "${!ERROR_COUNT[@]}"; do :; done # expandir arrays
 
   for test in "${!PASSED_COUNT[@]}"; do
-    printf '%-80s %7d %7d %7d\n' \
+    printf '%-90s %7d %7d %7d\n' \
       "$test" \
       "${PASSED_COUNT[$test]:-0}" \
       "${FAILED_COUNT[$test]:-0}" \
@@ -54,7 +56,7 @@ for ((i = 1; i <= RUNS; i++)); do
 
 
 # Debug muestra el contenido de TMP
-#  echo -e "\n🔎 Contenido del resumen (TMP):"
+#  echo -e "\n# Contenido del resumen (TMP):"
 # grep -E '^(PASSED|FAILED|ERROR) ' "$TMP" || echo "(sin resumen encontrado)"
 
   # Procesar líneas del resumen corto
@@ -86,17 +88,31 @@ for ((i = 1; i <= RUNS; i++)); do
   rm -f "$TMP"
 done
 
+#hora de finalizacion
+END_TIME=$(date +%s)
+
+#calcular duracion
+DURATION_S=$((END_TIME - START_TIME))
+
+#calcular min y seg
+DURATION_MIN=$((DURATION_S / 60))
+DURATION_SEC=$((DURATION_S % 60))
 
 
 # --------- Resumen final en pantalla ----------
 echo -e "\n ###--- Resumen de robustez – ${RUNS} ejecuciones ---###"
 print_table
+#duracion:
+echo ""
+echo "Duración total: $DURATION_MIN min $DURATION_SEC seg"
 
 # --------- Guardar a archivo ----------
 {
   echo "Resumen de robustez – suite: ${SUITE} – ejecuciones: ${RUNS}"
   echo
   print_table
+  echo ""
+  echo "Duración total: $DURATION_MIN min $DURATION_SEC seg"
 } > "$OUTFILE"
 
 echo -e "\n# Resultado guardado en: $OUTFILE"
