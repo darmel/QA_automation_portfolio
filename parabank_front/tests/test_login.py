@@ -173,7 +173,7 @@ def test_logout(browser, username, password, name, last_name):
     home_page = ParabankHomePage(browser)
     overview_page = ParabankOverviewPage(browser)
 
-    # Given la pagina de parabank esta activa
+    # Given la pagina de parabank esta activa y me logueo
     home_page.load(home_page.URL)
     logger.info(f'titulo de pagina HOME: {home_page.title}')
     home_page.login(username, password)
@@ -181,6 +181,5 @@ def test_logout(browser, username, password, name, last_name):
     # WHEN presiono boton para desloguear
     overview_page.log_out()
     logger.info(f'Deslogueado. titulo de pagina HOME: {home_page.title}')
-    # THEN buscar algo apra hacer el assert"
-    # valido el titulo de la pagina
+    # THEN vuelvo a la home page y estoy deslogueado.
     fa.assert_title_page(home_page, home_page.TITLE)
