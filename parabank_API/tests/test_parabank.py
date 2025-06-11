@@ -16,9 +16,9 @@ logger = logging.getLogger(__name__)
 
 
 def test_validate_login(client):
-    response = client.login_testuser('testuser', 'password')
+    response = client.login_testuser('john', 'demo')
     pa.assert_status_code(response, 200)
-    pa.assert_firstName_is_present(response, 'juan')
+    pa.assert_firstName_is_present(response, 'John')
     pa.assert_customerId_is_valid(response)
 
     pretty_print(response.as_dict)
