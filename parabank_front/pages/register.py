@@ -11,6 +11,7 @@ class ParabankRegister(BasePage):
     URL = f'{FRONT_URL}/register.htm'
     TITLE = 'ParaBank | Register for Free Online Account Access'
     TITLE_SUCCESS = 'ParaBank | Customer Created'  # after register title change
+    USERNAME_ALREADY_EXIST_TEXT = "This username already exists."
 
     # locators
     FIRST_NAME_INPUT = (By.ID, 'customer.firstName')
@@ -26,6 +27,8 @@ class ParabankRegister(BasePage):
     PASSWORD_CONFIRM_INPUT = (By.ID, 'repeatedPassword')
     REGISTER_BUTTON = (
         By.CSS_SELECTOR, 'input[type="submit"][value="Register"]')
+
+    ERROR_ELEMET = (By.CSS_SELECTOR, ".error")
 
     # interactions methods
 
@@ -51,3 +54,7 @@ class ParabankRegister(BasePage):
         password_input.send_keys(customer["password"])
         password_confirm_input = self.find(self.PASSWORD_CONFIRM_INPUT)
         password_confirm_input.send_keys(customer["password"] + Keys.RETURN)
+
+    def has_error_message(self):
+        error_element = self.find(self.ERROR_ELEMET)
+        return error_element.text.strip()

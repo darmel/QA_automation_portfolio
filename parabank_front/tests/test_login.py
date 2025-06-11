@@ -16,6 +16,8 @@ import pytest
 # fa for front assertions
 import parabank_front.tests.ui_assertions.pb_ui_assertions as fa
 from parabank_front.front_utils.open_new_account import open_new_account
+from parabank_front.front_utils.fake_data_generator import generate_user
+
 # from assertpy.assertpy import assert_that, soft_assertions
 
 logger = logging.getLogger(__name__)
@@ -85,6 +87,7 @@ def test_register_new_customer(browser, random_user):
 
     # WHEN, se registra un customer
     register_page.register_customer(random_user)
+    # THEN, obtengo nuevo titulo de pagina, y welcome text
     fa.assert_title_page(register_page, register_page.TITLE_SUCCESS)
     full_text = overview_page.get_username()
     logger.info(f'full welcome text: {full_text}')
@@ -92,11 +95,25 @@ def test_register_new_customer(browser, random_user):
         register_page, random_user['first_name'], random_user['last_name'])
 
 
+def test_register_customer_fail_due_used_username(browser):
+    register_page = ParabankRegister(browser)
+    john_user = generate_user('john')
+    # Given, estoy en la pagiona de register
+    register_page.load(register_page.URL)
+    logger.info(f'titulo de la pagina: {register_page.title}')
+    fa.assert_title_page(register_page, register_page.TITLE)
+    # WHEN, registro un customer con username ya usado
+    register_page.register_customer(john_user)
+    # THEN: Obtengo error porque el username esta en uso
+    error_message = register_page.has_error_message()
+    logger.info(f'mensaje de error: {error_message}')
+    fa.assert_text(error_message, register_page.USERNAME_ALREADY_EXIST_TEXT)
+
+
 def test_open_account(browser, new_customer):
     register_page = ParabankRegister(browser)
     overview_page = ParabankOverviewPage(browser)
     openaccount_page = ParabankOpenaccountPage(browser)
-    # time.sleep(1)
     # given
     # you are in registar page after a customer registration
     fa.assert_welcome_text_with_name(
@@ -108,16 +125,12 @@ def test_open_account(browser, new_customer):
     fa.assert_title_page(openaccount_page, openaccount_page.TITLE)
     account_id = openaccount_page.get_first_account_id()
     logger.info(f'Id de la 1era ceunta: {account_id}')
-    # time.sleep(1)
     openaccount_page.click_open_account()
-    # time.sleep(1)
     # THEN
-    # fa.assert_account_oppend(openaccount_page, openaccount_page.SUCCESS_TEXT)
     fa.assert_text(openaccount_page.get_success_text(),
                    openaccount_page.SUCCESS_TEXT)
     new_account_id = openaccount_page.get_new_account_id()
     logger.info(f'Id de la cuenta nueva: {new_account_id}')
-    # time.sleep(1)
 
 
 def test_transaction_betwen_customer_accounts(browser, new_customer, amount=50):
@@ -149,3 +162,25 @@ def test_transaction_betwen_customer_accounts(browser, new_customer, amount=50):
     logger.info(
         f'Result: from account: {transfer_page.get_from_account_id()} to account: {transfer_page.get_to_account_id()}')
     time.sleep(0)
+
+
+@pytest.mark.parametrize(
+    ['username', 'password', 'name', 'last_name'],
+    [('john', 'demo', 'John', 'Smith'),]
+)
+def test_logout(browser, username, password, name, last_name):
+
+    home_page = ParabankHomePage(browser)
+    overview_page = ParabankOverviewPage(browser)
+
+    # Given la pagina de parabank esta activa
+    home_page.load(home_page.URL)
+    logger.info(f'titulo de pagina HOME: {home_page.title}')
+    home_page.login(username, password)
+    logger.info(f'titulo de pagina OVERVIEW: {overview_page.title}')
+    # WHEN presiono boton para desloguear
+    overview_page.log_out()
+    logger.info(f'Deslogueado. titulo de pagina HOME: {home_page.title}')
+    # THEN buscar algo apra hacer el assert"
+    # valido el titulo de la pagina
+    fa.assert_title_page(home_page, home_page.TITLE)

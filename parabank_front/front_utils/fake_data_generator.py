@@ -9,14 +9,21 @@ logger = logging.getLogger(__name__)
 fake = Faker("es_AR")
 
 
-def generate_user():
+def generate_user(username=None):
     first = fake.first_name()
     first_cleaned = clean(first)
     last = fake.last_name()
     last_cleaned = clean(last)
-    username = re.sub(r"\s+", ".", f"{first_cleaned}.{last_cleaned}")
-    username = f"{username[:12]}{uuid.uuid4().hex[:6]}"
-    username = re.sub(r"\s+", ".", username.lower())[:19]
+    # username = re.sub(r"\s+", ".", f"{first_cleaned}.{last_cleaned}")
+    # username = f"{username[:12]}{uuid.uuid4().hex[:6]}"
+    # username = re.sub(r"\s+", ".", username.lower())[:19]
+    if username != None:
+        username = username
+    else:
+        username = re.sub(r"\s+", ".", f"{first_cleaned}.{last_cleaned}")
+        username = f"{username[:12]}{uuid.uuid4().hex[:6]}"
+        username = re.sub(r"\s+", ".", username.lower())[:19]
+
     logger.info(f'customer generado: {first} {last}. Username: {username}')
     customer = {  # devuelve un diccionario
         "first_name": first_cleaned,

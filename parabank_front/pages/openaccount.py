@@ -17,6 +17,8 @@ class ParabankOpenaccountPage(BasePage):
     TITLE = 'ParaBank | Open Account'
     SUCCESS_TEXT = "Your new account number:"
 
+    USERNAME_ALREADY_EXIST_TEXT = "This username already exists."
+
     # locators:
 
     USER_WELCOME_TEXT = (By.CSS_SELECTOR, '#leftPanel p.smallText')
