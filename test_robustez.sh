@@ -29,13 +29,13 @@ declare -A ERROR_COUNT
 
 # --------- Función helper para imprimir tabla ----------
 print_table () {
-  printf '%-90s %7s %7s %7s\n' "Test" "PASSED" "FAILED" "ERROR"
+  printf '%-110s %7s %7s %7s\n' "Test" "PASSED" "FAILED" "ERROR"
   printf -- '%.0s-' {1..115}; echo
 
   for t in "${!PASSED_COUNT[@]}" "${!FAILED_COUNT[@]}" "${!ERROR_COUNT[@]}"; do :; done # expandir arrays
 
   for test in "${!PASSED_COUNT[@]}"; do
-    printf '%-90s %7d %7d %7d\n' \
+    printf '%-110s %7d %7d %7d\n' \
       "$test" \
       "${PASSED_COUNT[$test]:-0}" \
       "${FAILED_COUNT[$test]:-0}" \
