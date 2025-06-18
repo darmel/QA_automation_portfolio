@@ -1,5 +1,6 @@
 import pytest
 from parabank_database.db_clients.parabank_db_client import open_parabank_conn
+from common.fixtures.common_fixtures import browser, new_customer_generation, random_user, new_customer, config
 import logging
 logger = logging.getLogger(__name__)
 
