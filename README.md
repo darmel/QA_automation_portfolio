@@ -30,6 +30,9 @@ Soy QA Manual and Automation y mi nombre es OCHOA, Dario. He trabajado en proyec
 
 ```
 QA_automation_portfolio
+├── common
+│   ├── config.json
+│   └── fixtures
 ├── jenkins
 │   └── Jenkinsfile
 ├── LICENSE
@@ -42,17 +45,21 @@ QA_automation_portfolio
 │   └── utils
 ├── parabank_database
 │   ├── db_clients
+│   ├── expected_schema
 │   ├── java-lib
 │   ├── prueba.py
 │   └── tests
 ├── parabank_front
 │   ├── config.json
 │   ├── config.py
+│   ├── front_utils
 │   ├── pages
 │   └── tests
 ├── pytest.ini
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── test_robustez.sh
+
 ```
 
 ## Objeto de pruebas
@@ -166,9 +173,9 @@ O si se quiere tener más informacion de la ejecución:
 Para jecutar los tests separados por capa:
 
 ```bash
-    python -m pytest parabank_API -v
-    python -m pytest parabank_database -v
-    python -m pytest parabank_front -v
+    python -m pytest -m api -v
+    python -m pytest -m database -v
+    python -m pytest -m ui -v
 ```
 
 ### 5. Generar reportes con Allure
