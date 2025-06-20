@@ -102,19 +102,19 @@ Para poder realizar tests a la base de datos del sitio es necesario tener el sit
 
 3. Verificaciones.
 
-   Contenedor:
+Contenedor:
 
 ```bash
     docker ps --filter name=parabank-site
 ```
 
-    Acceso al sitio web:
+Acceso al sitio web:
 
 ```bash
     curl -I http://localhost:8081/parabank
 ```
 
-    Acceso a la base de datos:
+Acceso a la base de datos:
 
 ```bash
     nc -zv localhost 9001
@@ -244,7 +244,7 @@ Con esto le damos un nombre facilmente referenciable a nuestro contenedor, expon
     docker exec -it --user root jenkins-postman bash
 ```
 
-    Una vez en el contenedor instalar dependencias:
+Una vez en el contenedor instalar dependencias:
 
 ```bash
     apt update
@@ -256,20 +256,20 @@ Con esto le damos un nombre facilmente referenciable a nuestro contenedor, expon
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
 ```
 
-        Instalar Google Chrome
+Instalar Google Chrome
 
 ```bash
     apt update
     apt install -y google-chrome-stable
 ```
 
-        Verificar instalalción
+Verificar instalalción
 
 ```bash
     google-chrome --version
 ```
 
-        Instalar dependecias extra que son utilizadas para renderizar páginas web, manejar sonido y gestionar procesos internos en las pruebas de UI:
+Instalar dependecias extra que son utilizadas para renderizar páginas web, manejar sonido y gestionar procesos internos en las pruebas de UI:
 
 ```bash
     apt install -y libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0
