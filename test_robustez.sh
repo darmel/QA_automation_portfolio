@@ -2,7 +2,7 @@
 # ------------------------------------------------------------------
 #  robustez.sh – Ejecuta una suite pytest N veces y contabiliza
 #                PASSED / FAILED / ERROR por cada test.
-#  Uso: ./robustez.sh <carpeta_de_tests> [iteraciones]
+#  Uso: ./robustez.sh <argumento para pytest> [iteraciones]
 # ------------------------------------------------------------------
 
 set -euo pipefail
