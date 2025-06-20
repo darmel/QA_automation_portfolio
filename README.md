@@ -5,6 +5,7 @@ En este repositoro expongo todo lo necesario para entender el funcionamiento y p
 ### Sobre mí:
 
 Soy QA Manual and Automation y mi nombre es OCHOA, Dario. He trabajado en proyectos de Automotive, Android, Sistemas Operativos basados en Linux y Plataformas bancarias.
+
 💼 LinkedIn: [Dario OCHOA](https://www.linkedin.com/in/dario-ochoa/)
 
 ## Objetivos del proyecto
@@ -64,7 +65,7 @@ QA_automation_portfolio
 
 ## Objeto de pruebas
 
-Elegi **ParaBank** que es un sitio-demo de la empresa Parasoft. Este sitio contine una UI funcional y limpia, documentación detallada sobre los endpoints e incluso si se utiliza la version contenerizada o se levanta el sitio en forma local se puede acceder tambien a la base de datos. Esto permite realizar pruebas en todas las capas y E2E
+El sitio **ParaBank** que es un sitio-demo de la empresa Parasoft. Este sitio contine una UI funcional y limpia, documentación detallada sobre los endpoints e incluso si se utiliza la version contenerizada o se levanta el sitio en forma local se puede acceder tambien a la base de datos. Esto permite realizar pruebas en todas las capas y E2E
 
 ## Como ejecutar los tests
 
@@ -100,6 +101,7 @@ Para poder realizar tests a la base de datos del sitio es necesario tener el sit
 ```
 
 3. Verificaciones.
+
    Contenedor:
 
 ```bash
@@ -208,11 +210,13 @@ Para utilizar Allure Reports es necsario instalar la aplicacion en nuestro siste
 ### 6. Integracion con Jenkins
 
 Para Simular un entorno real realicé tambien la integracion de este proyecto con Jenkins. Este se encuentra corriendo en un contendor docker.
+
 La tarea de jenkins realiza las siguietens subtareas:
 
 - Configura variables de entorno
 - Realiza un checkout del proyecto desde GitHub
 - Activa el entorno virtual e instala dependencias
+- Limpia archivos de reportes de ejecucines pasadas.
 - Ejecuta las suites de tests
 - Genera y publica el reporte de Allure
 
