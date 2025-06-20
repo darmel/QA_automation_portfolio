@@ -278,14 +278,13 @@ Con esto le damos un nombre facilmente referenciable a nuestro contenedor, expon
 
 #### Ejecución selectiva de pruebas
 
-- Agregar `markers` a los tests para permitir ejecutar subconjuntos específicos: API, UI, base de datos, login, negativos, etc.
+- ~~Agregar `markers` a los tests para permitir ejecutar subconjuntos específicos: API, UI o base de datos~~ Listo
 - Permitir seleccionar el ambiente de ejecución: entorno online público o entorno contenerizado local.
 
 #### Cobertura de pruebas
 
-- Agregar más pruebas automatizadas para la capa de UI.
-- Ampliar los tests de validación y consulta sobre la base de datos.
-- Incluir más casos negativos y de borde para endpoints clave y formularios críticos.
+- ~~Agregar más pruebas automatizadas para la capa de UI.~~ Listo
+- ~~Ampliar los tests de validación y consulta sobre la base de datos.~~ Listo
 
 #### Integración y despliegue
 
@@ -295,5 +294,5 @@ Con esto le damos un nombre facilmente referenciable a nuestro contenedor, expon
 
 #### Mantenimiento y buenas prácticas
 
-- Implementar limpieza automática de reportes antiguos de Allure.
+- ~~Implementar limpieza automática de reportes antiguos de Allure.~~ Listo
 - Añadir soporte para archivos `.env` y centralizar la configuración de variables.
