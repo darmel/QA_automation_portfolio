@@ -1,9 +1,9 @@
-pipeline {
+ppipeline {
     agent any
     
     environment {
         PARABANK_API_URL = "http://parabank-site:8080/parabank/services/bank"
-        PARABANK_FRONT_URL = "http://parabank-site:8080/parabank/index.htm"
+        PARABANK_FRONT_URL = "http://parabank-site:8080/parabank"
         PARABANK_DB_URL = "jdbc:hsqldb:hsql://parabank-site:9001/parabank"
     }
 
@@ -15,24 +15,30 @@ pipeline {
         }
 
         stage('Instalar dependencias') {
-            steps {
-                sh '''
-                if [ ! -d "venv" ]; then
-                  python3.8 -m venv venv
-                fi
+        steps {
+            sh '''
+            if [ ! -d "venv" ]; then
+                python3.8 -m venv venv
+            fi
 
-                . venv/bin/activate
+            . venv/bin/activate
 
-                pip install --upgrade pip setuptools wheel
-
-                #isntalar dependencias:
-                pip install -r requirements.txt
-                pwd
-                '''
+            pip install --upgrade pip setuptools wheel
+        
+            #isntalar dependencias:
+            pip install -r requirements.txt
+            pwd
+            '''
             }
-        }   
+        }
+        
+        stage('limpiar resultados anteriores'){
+            steps {
+                sh 'rm -rf allure-results'
+            }
+        }
 
-        stage('Ejecutar tests API') {
+        stage('Ejecutar tests') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh '''
@@ -43,15 +49,6 @@ pipeline {
                 }
             }
         }
-
-        /*stage('Ejecutar tests Front') {
-            steps {
-                sh '''
-                . venv/bin/activate
-                pytest parabank-front/tests --alluredir=allure-results/front
-                '''
-            }
-        }*/
 
         stage('generar reportes Allure') {
             steps {
