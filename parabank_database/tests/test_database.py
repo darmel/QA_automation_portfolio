@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 # Assert
 
 
+@pytest.mark.database
 @pytest.mark.parametrize(
     "table_name, expected_columns",
     [
@@ -32,6 +33,7 @@ def test_table_has_expected_columns(db_cursor, table_name, expected_columns):
     assert_that(actual_columns).contains(*expected_columns)
 
 
+@pytest.mark.database
 def test_customer_table_is_not_empty(db_cursor):
     db_cursor.execute("SELECT COUNT(*) FROM CUSTOMER")
     count = db_cursor.fetchone()[0]
@@ -39,6 +41,7 @@ def test_customer_table_is_not_empty(db_cursor):
     assert_that(count).is_greater_than(0)
 
 
+@pytest.mark.database
 def test_ui_created_accounts_linked_to_same_customer_in_db(db_cursor, browser, new_customer):
     # ARRANGE
     account_1, account_2 = open_new_account(browser, new_customer)

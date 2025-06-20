@@ -23,6 +23,7 @@ from parabank_front.front_utils.fake_data_generator import generate_user
 logger = logging.getLogger(__name__)
 
 
+@pytest.mark.ui
 @pytest.mark.parametrize(
     ['username', 'password', 'name', 'last_name'],
     [('john', 'demo', 'John', 'Smith'),]
@@ -54,6 +55,7 @@ def test_login_parabank(browser, username, password, name, last_name):
     fa.assert_welcome_text_with_name(overview_page, name, last_name)
 
 
+@pytest.mark.ui
 def test_login_fail(browser):
     username = "fakeuser"
     password = "fakepass"
@@ -75,6 +77,7 @@ def test_login_fail(browser):
     fa.assert_title_page(home_page, home_page.TITLE_ERROR)
 
 
+@pytest.mark.ui
 def test_register_new_customer(browser, random_user):
     # creo los objetos de pagina que voy a usar
     register_page = ParabankRegister(browser)
@@ -95,6 +98,7 @@ def test_register_new_customer(browser, random_user):
         register_page, random_user['first_name'], random_user['last_name'])
 
 
+@pytest.mark.ui
 def test_register_customer_fail_due_used_username(browser):
     register_page = ParabankRegister(browser)
     john_user = generate_user('john')
@@ -110,6 +114,7 @@ def test_register_customer_fail_due_used_username(browser):
     fa.assert_text(error_message, register_page.USERNAME_ALREADY_EXIST_TEXT)
 
 
+@pytest.mark.ui
 def test_open_account(browser, new_customer):
     register_page = ParabankRegister(browser)
     overview_page = ParabankOverviewPage(browser)
@@ -133,6 +138,7 @@ def test_open_account(browser, new_customer):
     logger.info(f'Id de la cuenta nueva: {new_account_id}')
 
 
+@pytest.mark.ui
 def test_transaction_betwen_customer_accounts(browser, new_customer, amount=50):
     overview_page = ParabankOverviewPage(browser)
     openaccount_page = ParabankOpenaccountPage(browser)
@@ -164,6 +170,7 @@ def test_transaction_betwen_customer_accounts(browser, new_customer, amount=50):
     time.sleep(0)
 
 
+@pytest.mark.ui
 @pytest.mark.parametrize(
     ['username', 'password', 'name', 'last_name'],
     [('john', 'demo', 'John', 'Smith'),]

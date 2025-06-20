@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 # Assert
 
 
+@pytest.mark.api
 def test_validate_login(client):
     response = client.login_testuser('john', 'demo')
     pa.assert_status_code(response, 200)
@@ -24,6 +25,7 @@ def test_validate_login(client):
     pretty_print(response.as_dict)
 
 
+@pytest.mark.api
 def test_login_invalid_credentials(client):
     response = client.login_testuser('fakeuser', 'fakepass')
     pa.assert_status_code(response, 400)
@@ -31,6 +33,7 @@ def test_login_invalid_credentials(client):
     pretty_print(response.text)
 
 
+@pytest.mark.api
 def test_customer_has_valid_schema(client, get_customerId):
     customerId = get_customerId
     response = client.customer_by_Id(customerId)
@@ -39,6 +42,7 @@ def test_customer_has_valid_schema(client, get_customerId):
     pa.assert_customer_by_Id_has_expected_schema(schema_customer, response)
 
 
+@pytest.mark.api
 def test_customer_has_valid_number_of_accounts(client, get_first_accountId, get_customerId):
     # account_amount = 0
     customerId = get_customerId
@@ -49,6 +53,7 @@ def test_customer_has_valid_number_of_accounts(client, get_first_accountId, get_
         response, 'id', get_first_accountId)
 
 
+@pytest.mark.api
 def test_get_account_detail_schema(client, get_first_accountId):
     accountId = get_first_accountId
     response = client.get_account_info(accountId)
@@ -58,6 +63,7 @@ def test_get_account_detail_schema(client, get_first_accountId):
     pa.assert_account_by_Id_has_expected_schema(schema_account, response)
 
 
+@pytest.mark.api
 def test_can_create_new_account_for_customer(client, get_first_accountId, get_customerId):
     customerId = get_customerId
     response = client.get_customer_accounts(customerId)
@@ -76,6 +82,7 @@ def test_can_create_new_account_for_customer(client, get_first_accountId, get_cu
         response, 'id', new_account_id)
 
 
+@pytest.mark.api
 def test_validate_transfer(client, get_customerId, ensure_two_accounts):
     # customerId = get_customerId
     amount = 50
