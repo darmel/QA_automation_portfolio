@@ -12,7 +12,7 @@ cd "$REPORT_REPO"
 pwd
 
 #clean old data except .git and .gitignore
-rsync -av --delete --exclude='.git' --exclude='.gitignore' "$SOURCE_REPORT"/ .
+rsync -av --delete --exclude='.git' --exclude='.gitignore' --exclude='README.md'  "$SOURCE_REPORT"/ .
 
 echo "data cleaned"
 #ls -las
