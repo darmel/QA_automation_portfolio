@@ -15,7 +15,7 @@ pwd
 rsync -av --delete --exclude='.git' --exclude='.gitignore' "$SOURCE_REPORT"/ .
 
 echo "data cleaned"
-ls -las
+#ls -las
 
 #copi new data
 cp -r "$SOURCE_REPORT"/* "$REPORT_REPO"
@@ -24,7 +24,7 @@ echo "new data copieda"
 
 # git add, commit and push
 pwd
-git status
+#git status
 git add .
 git commit -m "Actualización automática del reporte $FECHA"
 git push
