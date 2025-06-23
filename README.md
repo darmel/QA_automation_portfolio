@@ -26,6 +26,7 @@ Soy QA Manual and Automation y mi nombre es OCHOA, Dario. He trabajado en proyec
 - Reportes: `Allure`
 - CI: Jenkins, utilizando pipelines con script declarativo.
 - Docker
+- Vercel
 
 ## Estructura del proyecto
 
@@ -33,7 +34,8 @@ Soy QA Manual and Automation y mi nombre es OCHOA, Dario. He trabajado en proyec
 QA_automation_portfolio
 ├── common
 │   ├── config.json
-│   └── fixtures
+│   ├── fixtures
+│   └── scripts
 ├── jenkins
 │   └── Jenkinsfile
 ├── LICENSE
@@ -58,14 +60,15 @@ QA_automation_portfolio
 │   └── tests
 ├── pytest.ini
 ├── README.md
-├── requirements.txt
-└── test_robustez.sh
+└── requirements.txt
 
 ```
 
 ## Objeto de pruebas
 
 El sitio **ParaBank** que es un sitio-demo de la empresa Parasoft. Este sitio contine una UI funcional y limpia, documentación detallada sobre los endpoints e incluso si se utiliza la version contenerizada o se levanta el sitio en forma local se puede acceder tambien a la base de datos. Esto permite realizar pruebas en todas las capas y E2E
+
+---
 
 ## Como ejecutar los tests
 
@@ -285,25 +288,87 @@ Instalar dependecias extra que son utilizadas para renderizar páginas web, mane
 
 5. Construir la nueva tarea.
 
+### 7. Publicación online de reportes usando Vercel
+
+Para la publiación online de los reportes se creó un nuevo repositorio que solo contiene únicamente los archivos necesarios para visualizarlos: [parabank_tests_reports](https://github.com/darmel/parabank_tests_reports)
+
+El job de Jenkins incluye una `post action` que ejecuta un script encargado de:
+
+- Copiar el contenido de la carpeta `allure-report` generada por Allure al repositorio de [parabank_tests_reports](https://github.com/darmel/parabank_tests_reports)
+- Realizar el commit y el push de forma automatica.
+
+El repositorio `parabank_tests_reports`, está conectado a Vercel, por lo que cada nuevo push dispara un despliegue automático del reporte. De este modo, cada ejecución de pruebas actualiza en pocos segundos la versión pública del informe.
+
+### 8. Pruebas de Robustez
+
+Para verificar la estabilidad de los tests y detectar fallos intermitentes el proyecto incluye un script llamado test_robustez.sh
+
+Este script permite ejecutar tests de forma reiterada y genera un resumen consolidado de los resultados
+
+1. Funcionamiento
+   Se debe ejecutar desde la raíz del proyecto:
+
+```
+./common/scripts/test_robustez.sh "[argumento para pytest]" [cantidad de ejecuciones]
+```
+
+2. Ejemplos de uso:
+
+   Ejecutar todos los tests del proyecto 10 veces:
+
+   ```
+   ./common/scripts/test_robustez.sh "." 10
+   ```
+
+   Ejecutar solo los tests con marcador `ui` 10 veces
+
+   ```
+   ./common/scripts/test_robustez.sh "-m ui -v" 10
+   ```
+
+   Ejecutar tests con argumentos para debugging (-v -s --log-cli-level=INFO) 50 veces
+
+   ```
+   ./common/scripts/test_robustez.sh "-m api -v -s --log-cli-level=INFO" 50
+   ```
+
+3. Output
+   Al Finalizar el script muestra por consola y también en un archivo .txt un resumen con este formato:
+
+```
+###--- Resumen de robustez – 100 ejecuciones ---###
+Test                                                                      PASSED  FAILED  ERROR
+-----------------------------------------------------------------------------------------------
+parabank_API/tests/test_parabank.py::test_validate_transfer               100       0      0
+parabank_API/tests/test_parabank.py::test_validate_login                  100       0      0
+parabank_API/tests/test_parabank.py::test_login_invalid_credentials       100       0      0
+...
+Duración total: 1 min 7 seg
+```
+
+- `PASSED`: Cantidad de veces que el test pasó exitosamente.
+- `FAILED`: Veces que el test falló, por ejemplo por un assert.
+- `ERROR`: Errores de ejecución, generalmente problemas en la configuración, fixtures o setup.
+
 ### Mejoras futuras
 
 #### Ejecución selectiva de pruebas
 
-- ~~Agregar `markers` a los tests para permitir ejecutar subconjuntos específicos: API, UI o base de datos~~ Listo
+- ✅ Agregar `markers` a los tests para permitir ejecutar subconjuntos específicos: API, UI o base de datos
 - Permitir seleccionar el ambiente de ejecución: entorno online público o entorno contenerizado local.
 
 #### Cobertura de pruebas
 
-- ~~Agregar más pruebas automatizadas para la capa de UI.~~ Listo
-- ~~Ampliar los tests de validación y consulta sobre la base de datos.~~ Listo
+- ✅ Agregar más pruebas automatizadas para la capa de UI.
+- ✅ Ampliar los tests de validación y consulta sobre la base de datos.
 
 #### Integración y despliegue
 
 - Crear una imagen Docker personalizada para Jenkins con Python 3.8 preinstalado.
 - Automatizar la ejecución de pruebas por rama o Pull Request en Jenkins.
-- Publicar los reportes con acceso publico luego de cada ejecucion.
+- ✅ Publicar los reportes online con acceso publico luego de cada ejecucion.
 
 #### Mantenimiento y buenas prácticas
 
-- ~~Implementar limpieza automática de reportes antiguos de Allure.~~ Listo
+- ✅ Implementar limpieza automática de reportes antiguos de Allure.
 - Añadir soporte para archivos `.env` y centralizar la configuración de variables.
