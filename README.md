@@ -333,6 +333,7 @@ Este script permite ejecutar tests de forma reiterada y genera un resumen consol
    ```
 
 3. Output
+   
    Al Finalizar el script muestra por consola y también en un archivo .txt un resumen con este formato:
 
 ```
@@ -349,6 +350,8 @@ Duración total: 1 min 7 seg
 - `PASSED`: Cantidad de veces que el test pasó exitosamente.
 - `FAILED`: Veces que el test falló, por ejemplo por un assert.
 - `ERROR`: Errores de ejecución, generalmente problemas en la configuración, fixtures o setup.
+
+---
 
 ### Mejoras futuras
 
