@@ -43,8 +43,8 @@ ppipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh '''
                     . venv/bin/activate
-                    #pytest parabank-API/tests --alluredir=allure-results/api
-                    python -m pytest -v --log-cli-level=INFO --alluredir=allure-results
+                    #python -m pytest -v --log-cli-level=INFO --alluredir=allure-results
+                    python -m pytest -v --alluredir=allure-results
                     '''
                 }
             }
@@ -54,12 +54,11 @@ ppipeline {
             steps {
                 sh '''
                 allure generate allure-results -o allure-report --clean
-                #allure generate allure-results/front -o allure-report/front --clean
                 '''
             }
         }
 
-        stage('publicar reporte') {
+        stage('publicar reporte local') {
             steps {
                 allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
@@ -67,6 +66,12 @@ ppipeline {
     }
 
     post {
+        success {
+            sh '''
+                echo "publishing reports online"
+                ./common/scripts/report_publish.sh
+                '''
+        }
         always {
             // acciones cuando termine.
             echo 'Fin de ejecución'
